@@ -1,1 +1,3 @@
 /build
+# Ignore API keys
+/src/main/res/values/api_keys.xml
