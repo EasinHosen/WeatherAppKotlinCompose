@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Ignore API keys
+app/src/main/java/com/kkeb/weatherappkotlincompose/utils/APIKeys.kt
