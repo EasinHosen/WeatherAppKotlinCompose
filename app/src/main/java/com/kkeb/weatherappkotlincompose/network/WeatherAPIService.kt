@@ -3,7 +3,6 @@ package com.kkeb.weatherappkotlincompose.network
 
 import com.kkeb.weatherappkotlincompose.data.CurrentWeather
 import com.kkeb.weatherappkotlincompose.data.ForecastWeather
-import com.kkeb.weatherappkotlincompose.utils.WEATHER_API_Key
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -25,10 +24,10 @@ private val retrofit = Retrofit.Builder()
 
 interface WeatherAPIService{
 
-    @GET("weather?lat=23.85108534653475&lon=90.4115714057402&appid=${WEATHER_API_Key}&units=metric")
+    @GET()
     suspend fun getCurrentWeather(@Url endUrl: String) : CurrentWeather
 
-    @GET("forecast?lat=23.85108534653475&lon=90.4115714057402&appid=${WEATHER_API_Key}&units=metric")
+    @GET()
     suspend fun getWeatherForecast(@Url endUrl: String ) : ForecastWeather
 }
 
