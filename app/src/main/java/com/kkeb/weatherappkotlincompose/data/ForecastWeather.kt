@@ -5,13 +5,13 @@ data class ForecastWeather(
     @SerializedName("city")
     val city: City? = null,
     @SerializedName("cnt")
-    val cnt: Int? = null,
+    val cnt: Number? = null,
     @SerializedName("cod")
     val cod: String? = null,
     @SerializedName("list")
     val list: List<ForecastItem?>? = null,
     @SerializedName("message")
-    val message: Int? = null
+    val message: Number? = null
 ) {
     data class City(
         @SerializedName("coord")
@@ -19,23 +19,23 @@ data class ForecastWeather(
         @SerializedName("country")
         val country: String? = null,
         @SerializedName("id")
-        val id: Int? = null,
+        val id: Number? = null,
         @SerializedName("name")
         val name: String? = null,
         @SerializedName("population")
-        val population: Int? = null,
+        val population: Number? = null,
         @SerializedName("sunrise")
-        val sunrise: Int? = null,
+        val sunrise: Number? = null,
         @SerializedName("sunset")
-        val sunset: Int? = null,
+        val sunset: Number? = null,
         @SerializedName("timezone")
-        val timezone: Int? = null
+        val timezone: Number? = null
     ) {
         data class Coord(
             @SerializedName("lat")
-            val lat: Double? = null,
+            val lat: Number? = null,
             @SerializedName("lon")
-            val lon: Double? = null
+            val lon: Number? = null
         )
     }
 
@@ -43,19 +43,19 @@ data class ForecastWeather(
         @SerializedName("clouds")
         val clouds: Clouds? = null,
         @SerializedName("dt")
-        val dt: Int? = null,
+        val dt: Number? = null,
         @SerializedName("dt_txt")
         val dtTxt: String? = null,
         @SerializedName("main")
         val main: Main? = null,
         @SerializedName("pop")
-        val pop: Double? = null,
+        val pop: Number? = null,
         @SerializedName("rain")
         val rain: Rain? = null,
         @SerializedName("sys")
         val sys: Sys? = null,
         @SerializedName("visibility")
-        val visibility: Int? = null,
+        val visibility: Number? = null,
         @SerializedName("weather")
         val weather: List<Weather?>? = null,
         @SerializedName("wind")
@@ -63,33 +63,33 @@ data class ForecastWeather(
     ) {
         data class Clouds(
             @SerializedName("all")
-            val all: Int? = null
+            val all: Number? = null
         )
 
         data class Main(
             @SerializedName("feels_like")
-            val feelsLike: Double? = null,
+            val feelsLike: Number? = null,
             @SerializedName("grnd_level")
-            val grndLevel: Int? = null,
+            val grndLevel: Number? = null,
             @SerializedName("humidity")
-            val humidity: Int? = null,
+            val humidity: Number? = null,
             @SerializedName("pressure")
-            val pressure: Int? = null,
+            val pressure: Number? = null,
             @SerializedName("sea_level")
-            val seaLevel: Int? = null,
+            val seaLevel: Number? = null,
             @SerializedName("temp")
-            val temp: Double? = null,
+            val temp: Number? = null,
             @SerializedName("temp_kf")
-            val tempKf: Double? = null,
+            val tempKf: Number? = null,
             @SerializedName("temp_max")
-            val tempMax: Double? = null,
+            val tempMax: Number? = null,
             @SerializedName("temp_min")
-            val tempMin: Double? = null
+            val tempMin: Number? = null
         )
 
         data class Rain(
             @SerializedName("3h")
-            val h: Double? = null
+            val h: Number? = null
         )
 
         data class Sys(
@@ -103,18 +103,18 @@ data class ForecastWeather(
             @SerializedName("icon")
             val icon: String? = null,
             @SerializedName("id")
-            val id: Int? = null,
+            val id: Number? = null,
             @SerializedName("main")
             val main: String? = null
         )
 
         data class Wind(
             @SerializedName("deg")
-            val deg: Int? = null,
+            val deg: Number? = null,
             @SerializedName("gust")
-            val gust: Double? = null,
+            val gust: Number? = null,
             @SerializedName("speed")
-            val speed: Double? = null
+            val speed: Number? = null
         )
     }
 }

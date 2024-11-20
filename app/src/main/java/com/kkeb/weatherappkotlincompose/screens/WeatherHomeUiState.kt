@@ -10,6 +10,6 @@ data class Weather(
 
 sealed interface WeatherHomeUiState{
     data class Success(val weather: Weather): WeatherHomeUiState
-    data object Error: WeatherHomeUiState
+    data class Error(val message: String): WeatherHomeUiState
     data object Loading: WeatherHomeUiState
 }
