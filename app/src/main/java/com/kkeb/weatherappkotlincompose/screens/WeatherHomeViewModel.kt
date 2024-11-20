@@ -1,6 +1,9 @@
 package com.kkeb.weatherappkotlincompose.screens
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kkeb.weatherappkotlincompose.data.CurrentWeather
@@ -12,19 +15,20 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class WeatherHomeViewModel: ViewModel() {
-    private  val weatherRepo: WeatherRepository = WeatherRepositoryImpl()
+    private val weatherRepo: WeatherRepository = WeatherRepositoryImpl()
+    var uiState: WeatherHomeUiState by mutableStateOf(WeatherHomeUiState.Loading)
 
     fun getWeatherData(){
         viewModelScope.launch{
-            try{
-                val currentWeather = async { getCurrentWeather() }.await()
-                val forecastWeather = async { getWeatherForecast() }.await()
+           uiState = try{
+               val currentWeather = async { getCurrentWeather() }.await()
+               val forecastWeather = async { getWeatherForecast() }.await()
 
-                Log.d("WeatherHomeViewModel", "currentWeather: ${currentWeather.main!!.temp}")
-                Log.d("WeatherHomeViewModel", "forecastWeather: ${forecastWeather.list!!.size}")
-            }catch (e: Exception){
-                e.printStackTrace()
-            }
+               WeatherHomeUiState.Success(Weather(currentWeather, forecastWeather))
+           }catch (e: Exception){
+               e.printStackTrace()
+               WeatherHomeUiState.Error
+           }
         }
     }
 

@@ -14,12 +14,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import com.kkeb.weatherappkotlincompose.customuis.AppBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherHomeScreen(modifier: Modifier = Modifier) {
+fun WeatherHomeScreen(
+    uiState: WeatherHomeUiState,
+    modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -42,14 +43,20 @@ fun WeatherHomeScreen(modifier: Modifier = Modifier) {
                     .padding(padding)
                     .fillMaxSize()
                     .wrapContentSize(),
-            ) { }
+            ) {
+                when (uiState) {
+                    is WeatherHomeUiState.Success -> {
+                        Text(uiState.weather.currentWeather.main!!.temp!!.toString())
+                    }
+                    WeatherHomeUiState.Error -> {
+                        Text("Failed to fetch data ")
+                    }
+                    WeatherHomeUiState.Loading -> {
+                        Text("Loading")
+                    }
+                }
+            }
 
         }
     }
-}
-
-@Preview
-@Composable
-private fun WeatherHomeScreenPreview() {
-    WeatherHomeScreen()
 }

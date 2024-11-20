@@ -27,6 +27,6 @@ fun WeatherApp(modifier: Modifier = Modifier) {
 
     weatherHomeViewModel.getWeatherData()
     WeatherAppKotlinComposeTheme {
-        WeatherHomeScreen(modifier = modifier)
+        WeatherHomeScreen(uiState= weatherHomeViewModel.uiState, modifier = modifier)
     }
 }
