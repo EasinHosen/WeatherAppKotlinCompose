@@ -5,12 +5,13 @@ import android.net.ConnectivityManager.NetworkCallback
 import com.kkeb.weatherappkotlincompose.screens.ConnectivityState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 interface ConnectivityRepository {
     val connectivityState: StateFlow<ConnectivityState>
 }
 
-class DefaultConnectivityRepository(
+class DefaultConnectivityRepository @Inject constructor(
     connectivityManager: ConnectivityManager
 ) : ConnectivityRepository {
     private val _connectivityState =

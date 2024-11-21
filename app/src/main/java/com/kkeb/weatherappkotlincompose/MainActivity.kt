@@ -25,7 +25,9 @@ import com.kkeb.weatherappkotlincompose.screens.WeatherHomeScreen
 import com.kkeb.weatherappkotlincompose.screens.WeatherHomeUiState
 import com.kkeb.weatherappkotlincompose.screens.WeatherHomeViewModel
 import com.kkeb.weatherappkotlincompose.ui.theme.WeatherAppKotlinComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,7 @@ fun WeatherApp(
     modifier: Modifier = Modifier
 ) {
     val weatherHomeViewModel: WeatherHomeViewModel =
-        viewModel(factory = WeatherHomeViewModel.Factory)
+        viewModel()
     val context = LocalContext.current
     var locationPermissionGranted by remember { mutableStateOf(false) }
     var launcher = rememberLauncherForActivityResult(
