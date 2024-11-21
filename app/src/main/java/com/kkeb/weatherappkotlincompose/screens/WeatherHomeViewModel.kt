@@ -10,12 +10,14 @@ import com.kkeb.weatherappkotlincompose.data.CurrentWeather
 import com.kkeb.weatherappkotlincompose.data.ForecastWeather
 import com.kkeb.weatherappkotlincompose.data.WeatherRepository
 import com.kkeb.weatherappkotlincompose.utils.WEATHER_API_Key
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class WeatherHomeViewModel @Inject constructor (
     private val connectivityRepository: ConnectivityRepository,
     private val weatherRepository : WeatherRepository
