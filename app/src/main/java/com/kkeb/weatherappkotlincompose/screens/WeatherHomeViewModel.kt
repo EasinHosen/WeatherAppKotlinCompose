@@ -5,10 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kkeb.weatherappkotlincompose.data.ConnectivityRepository
-import com.kkeb.weatherappkotlincompose.data.CurrentWeather
-import com.kkeb.weatherappkotlincompose.data.ForecastWeather
-import com.kkeb.weatherappkotlincompose.data.WeatherRepository
+import com.kkeb.weatherappkotlincompose.data.repositories.ConnectivityRepository
+import com.kkeb.weatherappkotlincompose.data.models.CurrentWeather
+import com.kkeb.weatherappkotlincompose.data.models.ForecastWeather
+import com.kkeb.weatherappkotlincompose.data.repositories.WeatherRepository
 import com.kkeb.weatherappkotlincompose.utils.WEATHER_API_Key
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler

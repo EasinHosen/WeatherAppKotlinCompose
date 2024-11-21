@@ -2,6 +2,7 @@ package com.kkeb.weatherappkotlincompose
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -26,6 +27,7 @@ import com.kkeb.weatherappkotlincompose.screens.WeatherHomeUiState
 import com.kkeb.weatherappkotlincompose.screens.WeatherHomeViewModel
 import com.kkeb.weatherappkotlincompose.ui.theme.WeatherAppKotlinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import android.widget.Toast
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -45,11 +47,10 @@ fun WeatherApp(
     client: FusedLocationProviderClient,
     modifier: Modifier = Modifier
 ) {
-    val weatherHomeViewModel: WeatherHomeViewModel =
-        viewModel()
+    val weatherHomeViewModel: WeatherHomeViewModel = viewModel()
     val context = LocalContext.current
     var locationPermissionGranted by remember { mutableStateOf(false) }
-    var launcher = rememberLauncherForActivityResult(
+    val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         locationPermissionGranted = granted
@@ -68,8 +69,17 @@ fun WeatherApp(
     LaunchedEffect(locationPermissionGranted) {
         if (locationPermissionGranted) {
             client.lastLocation.addOnSuccessListener { location ->
-                weatherHomeViewModel.setLocation(location.latitude, location.longitude)
-                weatherHomeViewModel.getWeatherData()
+                if (location != null) {
+                    Log.d("current location", "WeatherApp: ${location.latitude}, ${location.longitude}")
+                    weatherHomeViewModel.setLocation(location.latitude, location.longitude)
+                    weatherHomeViewModel.getWeatherData()
+                } else {
+                    Log.e("current location", "Location is null")
+                    Toast.makeText(context, "Unable to get location", Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener { exception ->
+                Log.e("current location", "Error getting location", exception)
+                Toast.makeText(context, "Error getting location: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }

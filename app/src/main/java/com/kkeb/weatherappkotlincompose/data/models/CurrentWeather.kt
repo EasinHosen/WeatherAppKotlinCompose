@@ -1,4 +1,4 @@
-package com.kkeb.weatherappkotlincompose.data
+package com.kkeb.weatherappkotlincompose.data.models
 import com.google.gson.annotations.SerializedName
 
 data class CurrentWeather(

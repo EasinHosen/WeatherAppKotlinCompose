@@ -1,7 +1,7 @@
-package com.kkeb.weatherappkotlincompose.data
+package com.kkeb.weatherappkotlincompose.data.repositories
 
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.NetworkCallback
+import android.net.Network
 import com.kkeb.weatherappkotlincompose.screens.ConnectivityState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,13 +17,13 @@ class DefaultConnectivityRepository @Inject constructor(
     private val _connectivityState =
         MutableStateFlow<ConnectivityState>(ConnectivityState.Disconnected)
 
-    private val callback = object : NetworkCallback() {
-        override fun onAvailable(network: android.net.Network) {
+    private val callback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
             super.onAvailable(network)
             _connectivityState.value = ConnectivityState.Connected
         }
 
-        override fun onLost(network: android.net.Network) {
+        override fun onLost(network: Network) {
             super.onLost(network)
             _connectivityState.value = ConnectivityState.Disconnected
         }

@@ -2,10 +2,10 @@ package com.kkeb.weatherappkotlincompose
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.kkeb.weatherappkotlincompose.data.ConnectivityRepository
-import com.kkeb.weatherappkotlincompose.data.DefaultConnectivityRepository
-import com.kkeb.weatherappkotlincompose.data.WeatherRepository
-import com.kkeb.weatherappkotlincompose.data.WeatherRepositoryImpl
+import com.kkeb.weatherappkotlincompose.data.repositories.ConnectivityRepository
+import com.kkeb.weatherappkotlincompose.data.repositories.DefaultConnectivityRepository
+import com.kkeb.weatherappkotlincompose.data.repositories.WeatherRepository
+import com.kkeb.weatherappkotlincompose.data.repositories.WeatherRepositoryImpl
 import com.kkeb.weatherappkotlincompose.network.WeatherAPIService
 import dagger.Module
 import dagger.Provides
@@ -48,4 +48,4 @@ object RepositoryModule {
         return WeatherRepositoryImpl(weatherAPI)
     }
 
-} 
+}

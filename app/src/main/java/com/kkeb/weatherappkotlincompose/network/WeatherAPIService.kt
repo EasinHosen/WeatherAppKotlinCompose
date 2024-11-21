@@ -1,7 +1,7 @@
 package com.kkeb.weatherappkotlincompose.network
 
-import com.kkeb.weatherappkotlincompose.data.CurrentWeather
-import com.kkeb.weatherappkotlincompose.data.ForecastWeather
+import com.kkeb.weatherappkotlincompose.data.models.CurrentWeather
+import com.kkeb.weatherappkotlincompose.data.models.ForecastWeather
 import retrofit2.http.GET
 import retrofit2.http.Url
 

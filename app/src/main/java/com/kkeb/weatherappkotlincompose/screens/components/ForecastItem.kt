@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.kkeb.weatherappkotlincompose.data.ForecastWeather
+import com.kkeb.weatherappkotlincompose.data.models.ForecastWeather
 import com.kkeb.weatherappkotlincompose.utils.degree
 import com.kkeb.weatherappkotlincompose.utils.getFormattedDateTime
 import com.kkeb.weatherappkotlincompose.utils.getIconUrl
