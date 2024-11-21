@@ -1,22 +1,35 @@
 package com.kkeb.weatherappkotlincompose.screens
 
+import android.app.Application
+import android.net.ConnectivityManager
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.kkeb.weatherappkotlincompose.data.ConnectivityRepository
 import com.kkeb.weatherappkotlincompose.data.CurrentWeather
+import com.kkeb.weatherappkotlincompose.data.DefaultConnectivityRepository
 import com.kkeb.weatherappkotlincompose.data.ForecastWeather
 import com.kkeb.weatherappkotlincompose.data.WeatherRepository
 import com.kkeb.weatherappkotlincompose.data.WeatherRepositoryImpl
 import com.kkeb.weatherappkotlincompose.utils.WEATHER_API_Key
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class WeatherHomeViewModel : ViewModel() {
+class WeatherHomeViewModel(
+    private val connectivityRepository: ConnectivityRepository
+) : ViewModel() {
     private val weatherRepo: WeatherRepository = WeatherRepositoryImpl()
     var uiState: WeatherHomeUiState by mutableStateOf(WeatherHomeUiState.Loading)
+
+    val connectivityState: StateFlow<ConnectivityState> = connectivityRepository.connectivityState
     private var lat = 0.0
     private var lon = 0.0
 
@@ -53,5 +66,18 @@ class WeatherHomeViewModel : ViewModel() {
         val endUrl = "forecast?lat=$lat&lon=$lon&appid=${WEATHER_API_Key}&units=metric"
 
         return weatherRepo.getWeatherForecast(endUrl)
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = this[APPLICATION_KEY] as Application
+                val connectivityManager = application.getSystemService(ConnectivityManager::class.java)
+
+                WeatherHomeViewModel(
+                    connectivityRepository = DefaultConnectivityRepository(connectivityManager)
+                )
+            }
+        }
     }
 }

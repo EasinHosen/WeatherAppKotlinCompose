@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -27,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -40,6 +45,8 @@ import com.kkeb.weatherappkotlincompose.utils.getIconUrl
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherHomeScreen(
+    onRefresh: () -> Unit,
+    isConnected: Boolean,
     uiState: WeatherHomeUiState,
     modifier: Modifier = Modifier
 ) {
@@ -66,21 +73,56 @@ fun WeatherHomeScreen(
                     .fillMaxSize()
                     .wrapContentSize(),
             ) {
-                when (uiState) {
-                    is WeatherHomeUiState.Success -> {
-                        WeatherSection(weather = uiState.weather)
-                    }
+                if (!isConnected) {
+                    Text("No Internet Connection")
+                } else {
+                    when (uiState) {
+                        is WeatherHomeUiState.Success -> {
+                            WeatherSection(weather = uiState.weather)
+                        }
 
-                    is WeatherHomeUiState.Error -> {
-                        Text(uiState.message)
-                    }
+                        is WeatherHomeUiState.Error -> {
+                            ErrorSection(
+                                errorMessage = uiState.message,
+                                onRefresh = onRefresh
+                            )
+                        }
 
-                    WeatherHomeUiState.Loading -> {
-                        Text("Loading")
+                        WeatherHomeUiState.Loading -> {
+                            Text("Loading")
+                        }
                     }
                 }
             }
 
+        }
+    }
+}
+
+@Composable
+fun ErrorSection(
+    errorMessage: String,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxSize()
+    ) {
+        Text(
+            errorMessage,
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center
+        )
+        IconButton(
+            onClick = onRefresh
+        ) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = "Refresh",
+                tint = Color.White
+            )
         }
     }
 }
@@ -98,8 +140,7 @@ fun WeatherSection(
             modifier = modifier.weight(1f),
         )
         ForecastWeatherSection(
-            forecastItemList = weather.forecastWeather.list!!,
-            modifier = modifier
+            forecastItemList = weather.forecastWeather.list!!
         )
     }
 }
@@ -197,8 +238,7 @@ fun CurrentWeatherSection(
 
 @Composable
 fun ForecastWeatherSection(
-    forecastItemList: List<ForecastWeather.ForecastItem?>,
-    modifier: Modifier = Modifier
+    forecastItemList: List<ForecastWeather.ForecastItem?>
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),

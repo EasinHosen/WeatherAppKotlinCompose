@@ -13,3 +13,8 @@ sealed interface WeatherHomeUiState{
     data class Error(val message: String): WeatherHomeUiState
     data object Loading: WeatherHomeUiState
 }
+
+sealed interface ConnectivityState{
+    object Connected: ConnectivityState
+    object Disconnected: ConnectivityState
+}
