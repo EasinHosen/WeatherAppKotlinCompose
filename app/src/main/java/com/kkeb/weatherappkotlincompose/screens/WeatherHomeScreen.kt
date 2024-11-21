@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +32,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kkeb.weatherappkotlincompose.customuis.AppBackground
 import com.kkeb.weatherappkotlincompose.data.CurrentWeather
+import com.kkeb.weatherappkotlincompose.data.ForecastWeather
 import com.kkeb.weatherappkotlincompose.utils.degree
 import com.kkeb.weatherappkotlincompose.utils.getFormattedDateTime
 import com.kkeb.weatherappkotlincompose.utils.getIconUrl
@@ -92,6 +96,10 @@ fun WeatherSection(
         CurrentWeatherSection(
             currentWeather = weather.currentWeather,
             modifier = modifier.weight(1f),
+        )
+        ForecastWeatherSection(
+            forecastItemList = weather.forecastWeather.list!!,
+            modifier = modifier
         )
     }
 }
@@ -165,7 +173,7 @@ fun CurrentWeatherSection(
                 modifier = Modifier
                     .height(100.dp)
                     .width(2.dp)
-            ){}
+            ) {}
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
@@ -184,5 +192,60 @@ fun CurrentWeatherSection(
         }
         Spacer(modifier = Modifier.height(24.dp))
 
+    }
+}
+
+@Composable
+fun ForecastWeatherSection(
+    forecastItemList: List<ForecastWeather.ForecastItem?>,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(forecastItemList.size) { index ->
+            ForecastItem(forecastItem = forecastItemList[index]!!)
+        }
+    }
+}
+
+@Composable
+fun ForecastItem(
+    forecastItem: ForecastWeather.ForecastItem,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.5f)),
+        modifier = modifier
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(4.dp)
+        ) {
+            Text(
+                getFormattedDateTime(forecastItem.dt!!, "EEE"),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                getFormattedDateTime(forecastItem.dt, "hh:mm a"),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(getIconUrl(forecastItem.weather?.first()?.icon!!))
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(vertical = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                "${forecastItem.main?.temp} ${degree}C",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
     }
 }
